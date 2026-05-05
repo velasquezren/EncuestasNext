@@ -1,0 +1,210 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Outfit", ui-sans-serif, system-ui, sans-serif;
+
+    /* ═══════════════════════════════════════════════
+      Survey Elite — Clear Teal Colorimetry
+      Primary:  #16535c  rgba(22, 83, 92)
+      Secondary: #6db2bd  rgba(109, 178, 189)
+      ═══════════════════════════════════════════════ */
+
+  /* Deep backgrounds */
+  --color-brand-bg: #0b2a31;            /* Deep teal background */
+  --color-brand-surface: #16535c;       /* PRIMARY — card surfaces */
+  --color-brand-surface-hover: #1e6470; /* Lighter surface on hover */
+
+  /* Accent teal — interactive elements */
+  --color-brand-accent: #6db2bd;        /* SECONDARY — buttons, links, active */
+  --color-brand-accent-hover: #7fc2cc;  /* Lighter hover state */
+  --color-brand-accent-glow: rgba(109, 178, 189, 0.25);
+  --color-brand-accent-subtle: rgba(109, 178, 189, 0.08);
+
+  /* Warm gold highlights — for stars, emphasis, and sparkle */
+  --color-brand-gold: #e0b464;
+  --color-brand-gold-glow: rgba(224, 180, 100, 0.35);
+
+  /* Text */
+  --color-brand-text: #f2f7f8;
+  --color-brand-muted: #a6c7cc;
+  --color-brand-border: #2a6a76;
+  --color-brand-border-hover: #3b7f8c;
+}
+
+:root {
+  --background: var(--color-brand-bg);
+  --foreground: var(--color-brand-text);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  min-height: 100dvh;
+  position: relative;
+}
+
+/* Subtle noise texture overlay for premium depth */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.4;
+}
+
+::selection {
+  background-color: rgba(109, 178, 189, 0.35);
+  color: var(--color-brand-text);
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-brand-border);
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-brand-accent);
+}
+
+*:focus-visible {
+  outline: 2px solid var(--color-brand-accent);
+  outline-offset: 4px;
+}
+
+/* ───── Keyframes ───── */
+@keyframes float {
+  0%, 100% { transform: translateY(0px) scale(1); }
+  50% { transform: translateY(-20px) scale(1.05); }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes pulse-soft {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
+}
+
+/* ───── Elegant Components ───── */
+@layer components {
+  .card-elegant {
+    @apply bg-gradient-to-b from-[var(--color-brand-surface)] to-[var(--color-brand-bg)] backdrop-blur-xl border border-[var(--color-brand-border)] rounded-3xl p-6 md:p-8 transition-all duration-500;
+    box-shadow:
+      inset 0 1px 0 rgba(109, 178, 189, 0.1),
+      0 8px 32px rgba(0, 0, 0, 0.4),
+      0 1px 2px rgba(0, 0, 0, 0.2);
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Subtle top-edge shimmer line */
+  .card-elegant::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(109, 178, 189, 0.4),
+      transparent
+    );
+  }
+
+  .card-elegant:hover {
+    @apply border-[var(--color-brand-border-hover)];
+    box-shadow:
+      inset 0 1px 0 rgba(109, 178, 189, 0.15),
+      0 8px 40px rgba(109, 178, 189, 0.12),
+      0 1px 2px rgba(0, 0, 0, 0.2);
+    transform: translateY(-2px);
+  }
+
+  .text-glow {
+    text-shadow: 0 0 20px var(--color-brand-accent-glow), 0 0 40px var(--color-brand-accent-glow);
+  }
+
+  /* ── Premium Shimmer Button ── */
+  .btn-primary {
+    background: linear-gradient(135deg, var(--color-brand-accent), var(--color-brand-accent-hover));
+    color: white;
+    font-weight: 700;
+    padding: 0.75rem 2rem;
+    border-radius: 9999px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px var(--color-brand-accent-glow);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .btn-primary::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(255, 255, 255, 0.15) 50%,
+      transparent 100%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 3s ease-in-out infinite;
+  }
+
+  .btn-primary:hover {
+    box-shadow: 0 6px 25px rgba(76, 139, 149, 0.35);
+    transform: translateY(-1px);
+  }
+
+  /* ── Floating Orb (ambient) ── */
+  .ambient-orb {
+    position: absolute;
+    border-radius: 9999px;
+    pointer-events: none;
+    filter: blur(100px);
+    animation: float 8s ease-in-out infinite;
+  }
+
+  /* ── Badge / Chip ── */
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.375rem 1rem;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    background: var(--color-brand-accent-subtle);
+    border: 1px solid var(--color-brand-border);
+    color: var(--color-brand-accent);
+    backdrop-filter: blur(12px);
+  }
+}
+
+textarea {
+  font-family: inherit;
+}
